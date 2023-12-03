@@ -103,7 +103,7 @@ checkoutbtn.addEventListener('click', (event) => {
     event.preventDefault(event);
     console.log(cart);
 
-    localStorage.setItem('items', JSON.stringify(phones));
+    localStorage.setItem('items', JSON.stringify(cart));
 
     window.location = 'checkout.html'
 

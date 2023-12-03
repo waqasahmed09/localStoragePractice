@@ -1,116 +1,95 @@
+// slider 
+
+let currentSlide = 0;
+const slides = document.querySelector('.slides');
+const dots = document.querySelectorAll('.dot');
+
+function showSlide(index) {
+  slides.style.transform = `translateX(-${index * 100}%)`;
+  dots.forEach((dot, i) => {
+    dot.classList.toggle('active', i === index);
+  });
+}
+
+dots.forEach((dot, index) => {
+  dot.addEventListener('click', () => {
+    currentSlide = index;
+    showSlide(currentSlide);
+  });
+});
+
+function nextSlide() {
+  currentSlide = (currentSlide + 1) % dots.length;
+  showSlide(currentSlide);
+}
+
+function prevSlide() {
+  currentSlide = (currentSlide - 1 + dots.length) % dots.length;
+  showSlide(currentSlide);
+}
+
+setInterval(nextSlide, 3000); // Auto slide every 3 seconds
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 let div = document.querySelector("#div");
-
-let cart = []
-
-const phones = [
-    {
-        brand: 'Samsung',
-        model: 'S20',
-        ram: 8,
-        rom: 256,
-        camera: '20 megapixel',
-        price: 15000
-    },
-    {
-        brand: 'Xiomi',
-        model: 'note10',
-        ram: 4,
-        rom: 64,
-        camera: '10 megapixel',
-        price: 15000
-    },
-    {
-        brand: 'Infinix',
-        model: 'z10',
-        ram: 2,
-        rom: 16,
-        camera: '5 megapixel',
-        price: 15000
-    },
-    {
-        brand: 'Tecno',
-        model: 'spark10',
-        ram: 12,
-        rom: 512,
-        camera: '25 megapixel',
-        price: 15000
-    },
-    {
-        brand: 'Iphone',
-        model: '14',
-        ram: 4,
-        rom: 1024,
-        camera: '30 megapixel',
-        price: 15000
-    },
-    {
-        brand: 'Oppo',
-        model: 'F11',
-        ram: 8,
-        rom: 256,
-        camera: '20 megapixel',
-        price: 15000
-    },
-    {
-        brand: 'Vivo',
-        model: 'y20',
-        ram: 4,
-        rom: 64,
-        camera: '8 megapixel',
-        price: 15000
-    },
-    {
-        brand: 'Abdullah',
-        model: 's50',
-        ram: 50,
-        rom: 1024,
-        camera: '60 megapixel',
-        price: 300000
-    },
-
-]
-
-
-for (let i = 0; i < phones.length; i++) {
-    const phone = phones[i];
-    const phoneInfo = `Brand: ${phone.brand}, 
-    Model: ${phone.model}, RAM: ${phone.ram}GB, 
-    ROM: ${phone.rom}GB, 
-    Camera: ${phone.camera}, 
-    Price: $${phone.price}`;
-
-    div.innerHTML += `<p>${phoneInfo}</p> <br/>
-    <button  onclick="addToCart(${i})"> Add to Cart </button>`
-}
-
+let cart = [];
+let products; // Declare products globally
 
 function addToCart(i) {
-    cart.push(phones[i]);
-    console.log(cart);   
-    Swal.fire({
-        title: "Added",
-        text: "product added successfully!",
-        icon: "success"
-      });
-
-
+  cart.push(products[i]);
+  console.log(cart);
+  Swal.fire({
+    title: "Added",
+    text: "Product added successfully!",
+    icon: "success"
+  });
 }
 
-let checkoutbtn  = document.querySelector("#checkout");
+axios
+  .get("https://fakestoreapi.com/products?limit=20")
+  .then((res) => {
+    products = res.data; // Assign products globally
 
-checkoutbtn.addEventListener('click', (event) => {
-    event.preventDefault(event);
-    console.log(cart);
+    for (let i = 0; i < products.length; i++) {
+      const product = products[i];
+      const productContainer = document.createElement("div");
+      productContainer.classList.add("product");
 
-    localStorage.setItem('items', JSON.stringify(cart));
+      productContainer.innerHTML = `
+        <img src="${product.image}" alt="${product.title}" style="max-width: 100px; max-height: 100px;">
+        <p>
+           ${product.title},
+          Price: $${product.price.toFixed(2)}
+        </p>
+        <button onclick="addToCart(${i})">Add to Cart</button>
+      `;
 
-    window.location = 'checkout.html'
+      div.appendChild(productContainer);
+    }
 
+    let checkoutbtn = document.querySelector("#checkout");
 
+    checkoutbtn.addEventListener("click", (event) => {
+      event.preventDefault();
+      console.log(cart);
 
+      localStorage.setItem("items", JSON.stringify(cart));
 
-})
-
-
-
+      window.location.href = "checkout.html";
+    });
+  })
+  .catch((err) => {
+    console.log(err);
+  });

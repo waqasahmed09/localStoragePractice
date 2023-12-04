@@ -1,3 +1,13 @@
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+     
+  }
+  
 nav {
     background-color: #000000;
     overflow: hidden;
@@ -5,6 +15,7 @@ nav {
     justify-content: center;
     align-items: center;
     padding: 10px;
+    /* position: fixed; */
   }
 
   nav a {
@@ -49,15 +60,6 @@ nav {
 
 
 
-
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-  }
-  
   h1 {
     color: #333;
   }
@@ -101,7 +103,8 @@ body {
 
 
   button {
-    background-color: #3498db;
+    background-color: #ce6f02;
+    
     color: white;
     border: none;
     padding: 7px 10px;
@@ -127,6 +130,7 @@ body {
     color: #555;
     margin-bottom: 10px;
     text-align: center;
+    margin: 5px;
     font-weight: 600;
   }
 
@@ -146,7 +150,7 @@ body {
   }
   
   .slide {
-    border: 1px solid red;
+    /* border: 1px solid red; */
     height: 19rem;
 
     min-width: 100%;
@@ -219,4 +223,14 @@ body {
     margin: 0 auto; /* Center the image horizontally */
   }
   
+  .ml15 {
+    font-weight: 800;
+    font-size: 3.8em;
+    text-transform: uppercase;
+    letter-spacing: 0.5em;
+  }
   
+  .ml15 .word {
+    display: inline-block;
+    line-height: 1em;
+  }

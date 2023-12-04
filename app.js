@@ -32,6 +32,22 @@ setInterval(nextSlide, 3000); // Auto slide every 3 seconds
 
 
 
+anime.timeline({ loop: true })
+  .add({
+    targets: '.ml15 .word',
+    scale: [14, 1],
+    opacity: [0, 1],
+    easing: "easeOutCirc",
+    duration: 800,
+    delay: (el, i) => 800 * i
+  }).add({
+    targets: '.ml15',
+    opacity: 0,
+    duration: 3000,
+    easing: "easeOutExpo",
+    delay: 1000
+  });
+
 
 
 
@@ -87,7 +103,7 @@ axios
 
       localStorage.setItem("items", JSON.stringify(cart));
 
-      window.location.href = "checkout.html";
+      window.location = "checkout.html";
     });
   })
   .catch((err) => {

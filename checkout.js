@@ -1,83 +1,46 @@
-
-
 let checkedPoducts = document.querySelector("#checkedPoducts");
 
-
+// Retrieve items from local storage
 let phones = localStorage.getItem('items');
-let strObj = JSON.parse(phones);
-git
+
+// Check if there are items in local storage
+let strObj = phones ? JSON.parse(phones) : [];
+
 console.log(strObj);
 
-for (let i = 0; i < strObj.length; i++) {
-  const phone = strObj[i];
+// Function to render the products based on the current state in local storage
+function renderProducts() {
+  checkedPoducts.innerHTML = ""; // Clear the existing content
 
-  checkedPoducts.innerHTML += ` <img src="${phone.image}" alt="${phone.title}" style="max-width: 100px; max-height: 100px;">
-    <p>
-      Model: ${phone.title},<br>
-      Price: $${phone.price.toFixed(2)}
+  for (let i = 0; i < strObj.length; i++) {
+    const product = strObj[i];
+
+    checkedPoducts.innerHTML += `
+      <div class="checkoutedCart">
+
+      <img class="renderedImage" src="${product.image}" alt="${product.title}" style="max-width: 100px; max-height: 100px;">
+      <p class="text">
+      Model: ${product.title},<br>
+      Price: $${product.price.toFixed(2)}
       <button onclick="deleteCart(${i})">Delete</button>
-    </p>`;
+      </p>
+      </div>
+      
+    `;
+  }
 }
 
+// Function to delete a product
 function deleteCart(i) {
+  // Remove the product from the array
   strObj.splice(i, 1);
-  let waqasli = localStorage.setItem('items', JSON.stringify(phones))
-  console.log(waqasli);
-  
+
+  // Update the local storage with the modified array
+  localStorage.setItem('items', JSON.stringify(strObj));
+
+  // Update the displayed products by re-rendering the list
+  renderProducts();
 }
 
-
-
-
-
-// let getItems = localStorage.getItem("items");
-// let parseItems = JSON.parse(getItems);
-// console.log(parseItems);
-
-
-
-// let cart = document.querySelector(".cart");
-    
-// function deleted(){
-    
-// if(parseItems.length>0){
-    
-//     cart.innerHTML = ''
-//     for(let i = 0; i < parseItems.length; i++){
-        
-//         console.log(parseItems[i]);
-//         cart.innerHTML += `
-//         <h1>${parseItems[i].brand}</h1>
-//         <h3>${parseItems[i].model}</h3>
-//         <h3>${parseItems[i].ram}</h3>
-//         <h3>${parseItems[i].rom}</h3>
-//         <h3>${parseItems[i].camera}</h3>
-//         <h3>${parseItems[i].price}</h3>
-//         <br/>
-//         <button onclick="deleteItem(${i})">Remove Cart</button>
-//         <br/><br/><br/><br/>
-//         `
-//     }
-// }else{
-//     cart.innerHTML = `items not found`
-// }
-    
-
-// }
-// deleted();
-
-// function deleteItem(i){
-
-    
-//     parseItems.splice(i, 1);
-
-    
-//     deleted();
-    
-//     localStorage.setItem("items", JSON.stringify(parseItems));
-//     console.log(parseItems);
-
-
-
-
-// }
+// Initial rendering when the page loads
+renderProducts();
